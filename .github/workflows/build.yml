@@ -1,0 +1,40 @@
+name: Build & Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ '21', '25' ]
+    name: Java ${{ matrix.java }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: temurin
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+      - name: Run Checkstyle
+        run: ./gradlew checkstyleMain checkstyleTest
+      - name: Build and test
+        run: ./gradlew build
+      - name: Upload JAR artifact
+        if: matrix.java == '21'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ethos-step
+          path: build/libs/ethos-step-*.jar
+          if-no-files-found: error

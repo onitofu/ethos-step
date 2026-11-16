@@ -1,0 +1,11 @@
+name: ethos-step
+version: '${version}'
+main: ru.nyansus.mc.ethosstep.EthosStepPlugin
+api-version: '1.21'
+author: Nyansus
+description: Permanently grants a configurable base step height to eligible players.
+
+permissions:
+  ethos.step.use:
+    description: Permanently unlocks the configured step height
+    default: false

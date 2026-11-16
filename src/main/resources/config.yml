@@ -1,0 +1,4 @@
+# Base step height in blocks, not an additive bonus.
+# Restart the server after changing this value.
+# Players who have already unlocked it also receive the updated value.
+step-height: 1.0
